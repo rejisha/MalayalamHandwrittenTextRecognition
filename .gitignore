@@ -1,0 +1,6 @@
+# environment
+.venv
+
+# temp files
+test.py
+__pycache__

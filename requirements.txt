@@ -1,6 +1,11 @@
-tensorflow
+Augmentor
+Flask
 keras
+matplotlib
 numpy
 opencv-python
-Augmentor
-pillow>=8.1.0 # not directly required, pinned by Snyk to avoid a vulnerability
+openai
+scikit-learn
+tensorflow
+
+

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload an Image File</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            flex-direction: column;
+            text-align: center;
+        }
+        img {
+            cursor: pointer;
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+        }
+        form {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload an Image File</h1>
+        <form id="upload-form" method="post" action="/upload" enctype="multipart/form-data">
+            <input type="file" name="file" id="file" required>
+            <input type="submit" value="Submit">
+        </form>
+        <h2>Or</h2>
+        <h2>Choose a sample image:</h2>
+        <div id="sample-images">
+            {% for image in images %}
+            <img src="{{ url_for('static', filename='images/' + image) }}" alt="{{ image }}" width="100" height="100" onclick="selectSampleImage('{{ image }}')">
+            {% endfor %}
+        </div>
+
+        <h2>Predicted Text:</h2>
+        <div id="extracted-text"></div>
+    </div>
+
+    <script>
+        function selectSampleImage(imageName) {
+            $.post('/upload-sample', { filename: imageName }, function(data) {
+                $('#extracted-text').text(data.text);
+            });
+        }
+
+        $(document).ready(function() {
+            $('#upload-form').submit(function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    url: '/upload',
+                    type: 'POST',
+                    data: formData,
+                    success: function(data) {
+                        $('#extracted-text').text(data.text);
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,6 +1,33 @@
 # environment
 .venv
+.env
+
 
 # temp files
 test.py
 __pycache__
+
+
+# folders
+dataset
+raw_data
+predicted_texts
+segmented_characters
+uploaded_files
+model
+
+data.pickle
+
+# extn
+*.pkl
+*.png
+*.txt
+*.csv
+*.keras
+
+# files
+cnn_train.py
+cnnlstm_train.py
+svm_model.py
+
+

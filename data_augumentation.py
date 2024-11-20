@@ -4,6 +4,9 @@ import Augmentor
 from image_preprocessing import get_subdirectories
 
 def clear_and_augment_images(data_folder):
+    '''
+    Image augmenation on the dataset
+    '''
     for folder_name in get_subdirectories(data_folder):
         subfolder_path = os.path.join(data_folder, folder_name)
         
@@ -24,5 +27,5 @@ def clear_and_augment_images(data_folder):
         print(f"Augmentation completed for {subfolder_path}")
 
 
-raw_data_folder = 'raw_data'
-clear_and_augment_images(raw_data_folder)
+RAW_DATA_FOLDER = 'raw_data'
+clear_and_augment_images(RAW_DATA_FOLDER)

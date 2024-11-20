@@ -24,10 +24,10 @@ data.pickle
 *.txt
 *.csv
 *.keras
+*.joblib
+
 
 # files
-cnn_train.py
-cnnlstm_train.py
-svm_model.py
+
 
 

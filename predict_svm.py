@@ -1,7 +1,11 @@
+import os
 import cv2
+import numpy as np
 from joblib import load
+from segmentation import process_image_segmentation
 
-
+SEGMENTED_FOLDER = 'segmented_characters/'
+svm_model = load('new_svm_model.joblib')
 
 CHAR_DICT = {
     0: 'അ', 1: 'ആ', 2: 'ഇ', 3: 'ഉ', 4: 'എ', 5: 'ഏ', 6: 'ഒ',  
@@ -15,30 +19,58 @@ CHAR_DICT = {
     57: '്', 58: 'ല്ല', 59: 'ന്ന', 60: 'ട്ട', 61: 'ത്ത', 62: 'ണ്ട', 63: 'ക്ക', 64: 'ക്ഷ', 
 }
 
+def predict_character_svm(input_img):
+    '''
+    Preprocess the input image for SVM prediction.
+    '''
+    img = cv2.imread(input_img, cv2.IMREAD_GRAYSCALE)
+    img = cv2.resize(img, (32, 32))  # Ensure the image is 32x32
+    img = img / 255.0  # Normalize the image
+    img = img.flatten().astype(np.float32)  # Flatten the image
 
-# Load the pre-fitted pipeline
-model = load('svm_model.joblib')
+    prediction = svm_model.predict([img])
+    return prediction[0]
 
-def predict_character(img_path):
-    # Load the image in grayscale
-    image = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
-    if image is None:
-        print("Image not found.")
-        return None
 
-    # Resize the image to the expected dimensions (32x32)
-    image = cv2.resize(image, (32, 32))
-
-    # Flatten the image to create a 1D array of features
-    image_flattened = image.flatten().reshape(1, -1)  # Ensuring it's a 2D array with one sample
-
-    prediction = model.predict(image_flattened)
-    print(prediction)
-    predicted_character = CHAR_DICT.get(int(prediction[0]), 'Unknown')
+# Function to convert segmented images into text
+def image_to_text(input_img):
+ 
+    result = process_image_segmentation(input_img, SEGMENTED_FOLDER)
     
-    return predicted_character
+    if result:
+        char_files = sorted(os.listdir(SEGMENTED_FOLDER))
+        text = []
+        prev_filename = None
+        
+        for file in char_files:
+            space = False
+            filename = os.path.splitext(file)[0]
+            if prev_filename:
+                split_prevfilename = prev_filename.split('_')
+                split_filename = filename.split('_')
+                if split_filename[1] != split_prevfilename[1]:
+                    space = True
+                    print('There is a space between characters')
+            
+            pred_character = predict_character_svm(SEGMENTED_FOLDER + file)
+            char = CHAR_DICT.get(pred_character, '')
+            if space:
+                text.append(' ')
+            text.append(char)
+            
+            prev_filename = filename
+            os.remove(SEGMENTED_FOLDER + file)
+        
+        prev_filename = None
 
-# Example usage
-input_img = 'test_data/word_1.jpg'
-predicted_char = predict_character(input_img)
-print("Predicted Character:", predicted_char)
+    predicted_text = ''.join(text)
+    with open('predicted_text_svm.txt', 'w', encoding='utf-8') as f:
+        f.write(predicted_text)
+                
+    return predicted_text
+
+
+
+input_img = 'test_data\\sen_5.jpg'
+predicted_character = image_to_text(input_img)
+

@@ -6,7 +6,7 @@ IMAGE_SIZE = 32
 
 def get_subdirectories(root_path):
     """
-    Get list of subdirectory names.
+    Get list of subdirectory names from the raw data foldeer.
     """
     subdirs = []
     for folder in sorted(os.listdir(root_path)):
@@ -26,10 +26,10 @@ def convert_to_transparent_bg(filename):
     Converts an image with an alpha channel to a BGR image with a white background.
     """
     image = cv2.imread(filename, cv2.IMREAD_UNCHANGED)
-    alpha_channel = image[:, :, 3]
+    alpha_channel = image[:, :, 3] # extract tarnsparency
     rgb_channels = image[:, :, :3]
     white_background = np.ones_like(rgb_channels, dtype=np.uint8) * 255
-    alpha_factor = alpha_channel[..., np.newaxis].astype(np.float32) / 255.0
+    alpha_factor = alpha_channel[..., np.newaxis].astype(np.float32) / 255.0 # normalize to range values between [1,0]
     foreground = rgb_channels.astype(np.float32) * alpha_factor
     background = white_background.astype(np.float32) * (1 - alpha_factor)
     final_image = foreground + background
@@ -85,7 +85,7 @@ def save_processed_images(target_folder, images):
 
 def process_and_save_images(source_folder, target_folder, subdirectories):
     """
-    Process images from subdirectories and save them to a target location.
+    Process images from subdirectories and save them to a corresponding subfolders.
     """
     for subdir in subdirectories:
         print("Processing: ", subdir)

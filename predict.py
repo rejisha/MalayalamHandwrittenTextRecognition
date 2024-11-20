@@ -3,8 +3,6 @@ import cv2
 import os
 import shutil
 import difflib
-from jiwer import cer, wer
-from joblib import load
 
 import pandas as pd
 import numpy as np
@@ -29,10 +27,13 @@ CHAR_DICT = {
 
 SEGMENTED_FOLDER = 'segmented_characters/'
 # MODEL = load_model("model_cnn_lstm.keras")
-MODEL = load_model("model/cnn_model.keras")
+MODEL = load_model("model/new_model_cnn_lstm_3.keras")
 
 # predcit character
 def predict_character(image):
+    '''
+    Preform to predict character.
+    '''
 
     img = cv2.imread(image, cv2.IMREAD_UNCHANGED)
     if img.shape[2] == 4:
@@ -47,15 +48,12 @@ def predict_character(image):
     char_classes = np.genfromtxt('classes.csv', delimiter=',')[:, 1].astype(int)
     
     new = dict(zip(char_classes, p))
-    res = sorted(new.items(), key=operator.itemgetter(1), reverse=True)
-    character = int(res[0][0])
+    res = sorted(new.items(), key=operator.itemgetter(1), reverse=True) # Sorts the predictions in descending order by probability
+    character = int(res[0][0]) # Get most probable prediction
 
-    if res[0][1] < 1:
-        # print("Other predictions")
+    if res[0][1] < 1: # Check the probalility threshold
         for newtemp in res:
             character = newtemp[0]
-            # print("Character = ", newtemp[0])
-            # print("Confidence = ", newtemp[1] * 100, "%")
 
     return character
 
@@ -92,11 +90,11 @@ def image_to_text(input_img):
                     text.append(char)
             prev_filename = filename
         
-            # os.remove(SEGMENTED_FOLDER+file)
+            os.remove(SEGMENTED_FOLDER+file)
         prev_filename = None
 
     predicted_text = ''.join(text)
-    with open('predicted_text_svm.txt', 'w', encoding='utf-8') as f:
+    with open('predicted_text_cnnlstm.txt', 'w', encoding='utf-8') as f:
         f.write(predicted_text)
                 
     return text
@@ -110,9 +108,6 @@ text = image_to_text(input_img)
 print(text)
 # predicted_text = ''.join(text)
 
-# # Calculate CER and WER
-# print("CER:", cer(true_sentence, predicted_text))
-# print("WER:", wer(true_sentence, predicted_text))
 
 
 

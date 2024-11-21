@@ -15,7 +15,7 @@ This project focuses on recognizing handwritten Malayalam text using advanced mo
 
 ## **How to Run**
 
-1. **Install dependencies**:  
+- Install dependencies:  
    ```bash
    pip install -r requirements.txt
 

@@ -1,16 +1,24 @@
-**An Automated Approach to Detect Malayalam Handwriting Text**
+# **An Automated Approach to Detect Malayalam Handwriting Text**
 
-**Overview**
+## **Overview**
 This project focuses on recognizing handwritten Malayalam text using advanced models like CNN, CNN-LSTM, SVM, and GPT-4 Vision. It includes a web interface for digitizing handwritten Malayalam text into editable digital format.
 
-**Features**
-- OCR for Malayalam Script: Converts handwritten text to editable text.
-- Model Comparisons: Evaluates SVM, CNN, CNN-LSTM, and GPT-4 Vision.
-- Dataset Augmentation: Adds complex Malayalam characters.
-- Demo Web App: Upload and process handwritten text images.
+---
 
-**How to Run:**
-Install dependencies: pip install -r requirements.txt
+## **Features**
+- **OCR for Malayalam Script**: Converts handwritten text to editable text.
+- **Model Comparisons**: Evaluates SVM, CNN, CNN-LSTM, and GPT-4 Vision.
+- **Dataset Augmentation**: Adds complex Malayalam characters.
+- **Demo Web App**: Upload and process handwritten text images.
+
+---
+
+## **How to Run**
+
+1. **Install dependencies**:  
+   ```bash
+   pip install -r requirements.txt
+
 Dataset Augmentation: python data_augumentation.py
 Data cleaning: python data_cleaning.py
 Processing images and generating a pickle file: python create_pickelfile.py

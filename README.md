@@ -19,18 +19,25 @@ This project focuses on recognizing handwritten Malayalam text using advanced mo
    ```bash
    pip install -r requirements.txt
 
-Dataset Augmentation: python data_augumentation.py
-Data cleaning: python data_cleaning.py
-Processing images and generating a pickle file: python create_pickelfile.py
-Train CNN model: python cnn_train.py
-Train CNN-LTSM model: python cnnlstm_train.py
-Train SVM model: python svm_model.py
-Predict image: python predict.py
-Predict image using svm: python predict_svm.py
-Run GPT4Vision: python gpt4vision.py
-Launch the web app: python app.py
+- Augment the dataset: `python data_augumentation.py`
 
+- Clean the data: `python data_cleaning.py`
 
+- Process images and generate a pickle file: `python create_pickelfile.py`
+
+- Train the CNN model: `python cnn_train.py`
+
+- Train the CNN-LSTM model: `python cnnlstm_train.py`
+
+- Train the SVM model: `python svm_model.py`
+
+- Predict an image: `python predict.py`
+
+- Predict an image using the SVM model: `python predict_svm.py`
+
+- Run GPT-4 Vision: `python gpt4vision.py`
+
+- Launch the web application: `python app.py`
 
 
 

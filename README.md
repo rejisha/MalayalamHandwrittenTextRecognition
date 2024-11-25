@@ -5,6 +5,15 @@ This project focuses on recognizing handwritten Malayalam text using advanced mo
 
 ---
 
+## Dataset
+
+### Download the Dataset
+The dataset required for this project is hosted on Google Drive. You can download it using the following link:
+
+[Download Dataset](https://drive.google.com/drive/folders/1vcruciA1Ef9PggMM8Ix07OuBLc-oVg-P?usp=sharing)
+
+---
+
 ## **Features**
 - **OCR for Malayalam Script**: Converts handwritten text to editable text.
 - **Model Comparisons**: Evaluates SVM, CNN, CNN-LSTM, and GPT-4 Vision.
